@@ -1,114 +1,25 @@
-const modulesData = `50951
-69212
-119076
-124303
-95335
-65069
-109778
-113786
-124821
-103423
-128775
-111918
-138158
-141455
-92800
-50908
-107279
-77352
-129442
-60097
-84670
-143682
-104335
-105729
-87948
-59542
-81481
-147508
-62687
-64212
-66794
-99506
-137804
-135065
-135748
-110879
-114412
-120414
-72723
-50412
-124079
-57885
-95601
-74974
-69000
-66567
-118274
-136432
-110395
-88893
-124962
-74296
-106148
-59764
-123059
-106473
-50725
-116256
-80314
-60965
-134002
-53389
-82528
-144323
-87791
-128288
-109929
-64373
-114510
-116897
-84697
-75358
-109246
-110681
-94543
-92590
-69865
-83912
-124275
-94276
-98210
-69752
-100315
-142879
-94783
-111939
-64170
-83629
-138743
-141238
-77068
-119299
-81095
-96515
-126853
-87563
-101299
-130240
-62693
-139018`;
+const intcode = [1,12,2,3,1,1,2,3,1,3,4,3,1,5,0,3,2,9,1,19,1,19,5,23,1,9,23,27,2,27,6,31,1,5,31,35,2,9,35,39,2,6,39,43,2,43,13,47,2,13,47,51,1,10,51,55,1,9,55,59,1,6,59,63,2,63,9,67,1,67,6,71,1,71,13,75,1,6,75,79,1,9,79,83,2,9,83,87,1,87,6,91,1,91,13,95,2,6,95,99,1,10,99,103,2,103,9,107,1,6,107,111,1,10,111,115,2,6,115,119,1,5,119,123,1,123,13,127,1,127,5,131,1,6,131,135,2,135,13,139,1,139,2,143,1,143,10,0,99,2,0,14,0];
 
-const modules = modulesData.split("\n");
+// first part
+const intcodeProgram = intcode => {
+  for ( let i = 0; intcode[i] !== 99 && i < intcode.length; i += 4) {
+    intcode[i] == 1 ? intcode[intcode[i+3]] = intcode[intcode[i+1]] + intcode[intcode[i+2]] : intcode[intcode[i+3]] = intcode[intcode[i+1]] * intcode[intcode[i+2]];
+  };
 
-// first part of problem
-const calculateFuel = mass => Math.floor(mass / 3) - 2;
-
-// second part
-const calculateFuel2 = mass => {
-  const fuel = calculateFuel(mass);
-  if (fuel <= 0 ) return 0;
-  return fuel + calculateFuel2(fuel);
+  return intcode[0];
 }
 
-console.log(modules.reduce((acc, currentModule) => acc + calculateFuel2(+currentModule), 0));
+// console.log(intcodeProgram(intcode));
+
+// second part
+for (let i = 1; i < 100; i++) {
+  for (let j = 1; j < 100; j++) {
+    let testIntcode = [...intcode];
+    testIntcode[1] = i;
+    testIntcode[2] = j;
+
+    if (intcodeProgram(testIntcode) === 19690720) {
+      console.log(100 * i + j)
+    }
+  }
+}

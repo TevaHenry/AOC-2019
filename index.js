@@ -101,8 +101,10 @@ const modulesData = `50951
 
 const modules = modulesData.split("\n");
 
+// first part of problem
 const calculateFuel = mass => Math.floor(mass / 3) - 2;
 
+// second part
 const calculateFuel2 = mass => {
   const fuel = calculateFuel(mass);
   if (fuel <= 0 ) return 0;
